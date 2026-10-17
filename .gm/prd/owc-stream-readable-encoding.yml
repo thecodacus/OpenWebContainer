@@ -1,0 +1,4 @@
+id: owc-stream-readable-encoding
+subject: 'Readable encoding option ignored (witness dispatch 1792020380525-500-5f4a1516bb398ad9, case contract--readable-opts): with the encoding option set, Node delivers data events as strings (the data string printed as e-acute), while OWC delivers a Buffer and readableEncoding is undefined. Fix the Readable constructor option and setEncoding so readableEncoding and data-event types match Node. Also note for owc-sr-contract: that row assumes a static Readable.toArray, which Node 24 does not have (typeof undefined); only the instance readable.toArray() exists, and that instance form is equal in OWC.'
+session_id: owc-r4
+status: pending

@@ -1,0 +1,4 @@
+id: owc-child-process
+subject: 'child_process: spawn, exec, execFile, fork, spawnSync, execSync, execFileSync, with stdio piping to container processes'
+session_id: claude-gm-owc-2
+status: pending

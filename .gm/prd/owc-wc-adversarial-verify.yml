@@ -1,0 +1,4 @@
+id: owc-wc-adversarial-verify
+session_id: claude-gm-owc-2
+subject: 'final adversarial verification of the arbitrary-package goal: a fresh verifier re-runs the corpus differential, attacks the fixed categories with live probes, and reports open blockers; no verifier reads the fix diffs before running probes'
+status: pending

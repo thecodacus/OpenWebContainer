@@ -1,0 +1,4 @@
+id: owc-network-bridge-harness
+subject: 'Scratch-only verification harness, never shipped in packages/core: a host sink (the existing HOST_PID path of network/virtual/hub.ts) that connects a real Node 24 TCP or UDP peer to a guest socket, in both directions (host-originated connections to guest listeners, and guest connections to a host listener), byte-exact, 1 MB payloads, plus UDP datagram echo. Used as the external-peer witness by owc-tls-functional, owc-http2-supported and owc-http3-supported. Lives under /tmp/owc-r4/bridge; the repo copy is read-only for this harness.'
+session_id: owc-r4
+status: pending

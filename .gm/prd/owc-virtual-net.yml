@@ -1,0 +1,4 @@
+id: owc-virtual-net
+subject: 'Virtual network hub per container: loopback TCP and UDP ports, connections, net (Server, Socket, connect, createServer), tls over net, dgram sockets, ports tied to processes'
+session_id: claude-gm-owc-2
+status: pending

@@ -1,0 +1,4 @@
+id: owc-wa-stream-buffer-fs
+session_id: claude-gm-owc-2
+subject: stream iterator helpers (map, filter, toArray, forEach, take, drop, reduce), stream.addAbortSignal, pipeline AbortSignal with ABORT_ERR, stream.compose, isReadable, isErrored, isDisturbed; buffer Blob, transcode, isUtf8, isAscii; fs opendir and promises opendir, createReadStream start and end options, statSync fields
+status: pending

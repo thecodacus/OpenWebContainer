@@ -1,0 +1,4 @@
+id: owc-h3-client-close
+subject: 'The container''s HTTP/3 client close() does not reach the peer: the session closes locally with code 256 but aioquic 1.6.1 records no ConnectionTerminated across two runs in a 14 s window. Server close is correct (GOAWAY then CONNECTION_CLOSE 256, seen by the peer). Found by the stage 3 verifier, repro /tmp/owc-r4/verify-h3/repro-1 (expected: grep ConnectionTerminated -> 0 matches). Decide whether the client must flush its CONNECTION_CLOSE before the socket closes, and witness it against aioquic.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

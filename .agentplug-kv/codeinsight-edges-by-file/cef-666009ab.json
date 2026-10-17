@@ -1,0 +1,1 @@
+{"edges":[["nodeArguments","trim",13],["nodeArguments","test",14],["nodeArguments","includes",25],["nodeArguments","test",30],["nodeArguments","push",32],["nodeArguments","has",41],["nodeArguments","push",48]],"path":"packages/core/src/npm/lifecycle.ts"}

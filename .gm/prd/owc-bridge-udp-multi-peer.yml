@@ -1,0 +1,4 @@
+id: owc-bridge-udp-multi-peer
+subject: The bridge UDP path forwards each bridge to one peer, so concurrent QUIC clients cannot be tested through it. The stage 2 verifier tested concurrency inside the guest only. Decide whether the bridge should support several peers per guest port, and witness two aioquic clients reaching one container server through the bridge. Found by the QUIC stage 2 verifier, observation 'bridge'.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

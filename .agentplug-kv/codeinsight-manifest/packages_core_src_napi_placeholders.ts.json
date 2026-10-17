@@ -1,0 +1,1 @@
+{"chunks":[{"ch":3755087868,"emb":null,"key":"ci-1778f565-7996c328-0","kind":"function_declaration","le":23,"ls":10,"name":"writeNapiPlaceholders"}],"commit_overview":null,"digest_hash":1963401297,"hash":2039923496,"mtime_ms":1792055987390.0,"path":"packages/core/src/napi/placeholders.ts","size":1187,"skipped_no_embed":1,"v":7}

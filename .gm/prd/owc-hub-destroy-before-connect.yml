@@ -1,0 +1,4 @@
+id: owc-hub-destroy-before-connect
+subject: A guest that calls destroy() synchronously right after net.connect(), before 'connect' fires, still reaches the host listener, which Node's listener does not see. The hub now closes cleanly instead of hanging, but the connection itself should not be delivered. Reported by the hub repair round. Decide whether to suppress the connection, and witness the chosen behaviour against Node 24.15 with a host listener.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

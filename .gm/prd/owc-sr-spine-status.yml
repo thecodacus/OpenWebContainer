@@ -1,0 +1,4 @@
+id: owc-sr-spine-status
+subject: 'SPINE STATUS re-checked live after the runtime changed: process.nextTick at top level now runs before promise jobs (matches Node); a nextTick queued from inside a promise job still runs before promise jobs already queued (Node runs those first); an unhandled promise rejection is still swallowed (exit 0, later timers run; Node exits 1); an uncaught throw in nextTick or in a timer now exits 1 as Node does; process.stdin is still a stub that delivers no data, so readline over process.stdin never emits line or close (Node prints closed at end of input); process.stdout still lacks emit, removeListener and listenerCount (guarded in stream.ts).'
+SESSION_ID: stream-rl-a1
+status: pending

@@ -1,0 +1,4 @@
+id: owc-crypto-ciphers-brotli
+subject: 'Ciphers and compression gaps (witness dispatch 1792020269182-7-9453f953e0e0f15b): crypto.createCipheriv with aes-128-cbc throws ERR_FEATURE_UNAVAILABLE (createHash sha256 and createHmac are equal to Node and are not in this row); brotliCompressSync and brotliDecompressSync and zstd round trips throw ERR_NOT_SUPPORTED. Implement createCipheriv and createDecipheriv on top of @noble/ciphers (AES-CBC, AES-CTR, AES-GCM, ChaCha20-Poly1305 as available there) with Node''s error codes for bad keys and IVs, witnessed against Node''s crypto. Brotli and zstd are a separate decision (a pure-JS brotli decoder and encoder are large): record that decision here before implementing.'
+session_id: owc-r4
+status: pending

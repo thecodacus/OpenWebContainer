@@ -1,0 +1,4 @@
+id: owc-quic-stage1-buffer-alias
+subject: 'Stage 1 QUIC codecs (src/network/quic): removeHeaderProtection writes the unmasked header into packet.slice(...), and Buffer.prototype.slice returns a view (in Node and in the OWC guest), so openPacket/unprotectPacket modify a Buffer datagram in place and opening it a second time fails authentication; QuicReader.take likewise returns views that alias a Buffer input. Repro: /tmp/owc-r4/impl-quic2/probe/stage1-buffer-alias.mts (plain Uint8Array: ok,ok; Buffer: ok, PacketDropError). Suggested fix: copy with new Uint8Array(view). Found by QUIC stage 2 (/tmp/owc-r4/deliver/quic-stage2/MANIFEST.md section 6), which guards by copying datagrams to plain Uint8Array at the socket boundary.'
+session_id: b422cdc2-dcf9-4093-932f-c03aff25e78f
+status: pending

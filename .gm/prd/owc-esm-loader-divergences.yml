@@ -1,0 +1,4 @@
+id: owc-esm-loader-divergences
+subject: ESM loader divergences from Node 24.15, all pre-existing per the pristine build. A class or object method named 'import' breaks module loading. Unsupported import attributes (type css, an unknown key, type javascript) give wrong error codes, are ignored, or evaluate the module. Dynamic-import errors lack e.code. require() of a throwing module reports [object Object]. Extension-less ESM specifiers resolve where Node fails. Duplicate import or const names are accepted where Node gives SyntaxError. Top-level await with an anonymous 'export default class' prints a QuickJS cleanup assertion on host stderr. Found in the round-3 ESM verification, repros r3-repro-2 to r3-repro-6 in /tmp/owc-r4/verify-hubesm/round3/.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

@@ -1,0 +1,4 @@
+id: owc-verifier-open-gaps
+session_id: claude-gm-owc-2
+subject: 'OPEN verifier findings not fixed: AsyncLocalStorage context across await and async resumption; vm timeout (a busy loop blocks the worker); http2 core stream API (stream event, respond); stream pipeline AbortSignal with ABORT_ERR; missing exports events.on and getEventListeners, util.parseArgs, timers/promises setInterval and scheduler, net.BlockList and SocketAddress, buffer.Blob, transcode and isUtf8, module.register; vm cross-realm instanceof; Buffer identity across worker messages (Node delivers Uint8Array)'
+status: pending

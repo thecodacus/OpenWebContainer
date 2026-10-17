@@ -1,0 +1,4 @@
+id: owc-compat-rewrite-tokenizer
+subject: 'Out of scope of owc-hub-early-close-race / owc-esm-class-field-rewrite repair round 1 (verifier repro-4). The guest regex-compat scanner (rxScan in runtime/guest/regex-compat.ts, shared by the CJS retry and the ESM path) misreads some regex-vs-division and string contexts, so for a module that fails natively it can miss a class field or rewrite text inside a literal. Repros: /tmp/owc-r4/verify-hubesm/repro-4 (m3.mjs and m3.cjs both fail with ''invalid property name'' where Node prints ok), plus b07-tokenizer probes k02b-missed-rewrite.mjs and k02d-cjs-with-trigger.cjs. Since repair round 1 the ESM path rewrites only modules the engine rejects, so modules that parse natively are no longer affected.'
+session_id: ff23c579-9038-42cf-9470-189dff38734f
+status: pending

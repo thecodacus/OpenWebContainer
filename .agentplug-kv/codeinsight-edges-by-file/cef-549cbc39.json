@@ -1,0 +1,1 @@
+{"edges":[["napiFunction","impl",25],["napiFunction","defineProperty",27],["typedArray","isView",36],["optionalTypedArray","typedArray",45],["write","set",90],["write","subarray",90]],"path":"packages/core/src/napi/sodium/support.ts"}

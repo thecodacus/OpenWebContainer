@@ -1,0 +1,4 @@
+id: owc-shell-builtins
+subject: 'Compound commands and builtins in the guest shell: if/for/while/until/case/groups/functions with break, continue and return; and set, shift, unset, export, readonly, local, alias, unalias, type, which, command, builtin, hash, help, env, times, ulimit, umask, getopts, declare, eval, exec, source, read, mapfile, caller, dirs/pushd/popd, jobs/fg/bg/disown/suspend, trap, wait, let. Delivered as packages/core/src/shell/commands/builtins.ts with a runScript surface plus anchored child.ts integration notes, because another lane owns child.ts. Oracle: /bin/sh and /bin/bash on Node 24.15.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

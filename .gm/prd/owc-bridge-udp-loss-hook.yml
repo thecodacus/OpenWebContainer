@@ -1,0 +1,4 @@
+id: owc-bridge-udp-loss-hook
+subject: The OWC-R4 external-peer bridge UDP path (bridgeUdp in /tmp/owc-r4/bridge and every copy) has no loss hook, so QUIC stage 2 witness (e) (drop the first client Initial and the first server Handshake datagram in the bridge) is not claimed. A drop filter plus per-datagram log exists only in the scratch copy /tmp/owc-r4/impl-quic2/probe/node-bridge-udp.mts (options.drop/options.log); with it both directions completed (MANIFEST section 5, supplementary). Decide whether to adopt a loss hook in the bridge and rerun e-loss-a / e-loss-b / e-loss-b-rsa against it.
+session_id: b422cdc2-dcf9-4093-932f-c03aff25e78f
+status: pending

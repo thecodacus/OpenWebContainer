@@ -1,0 +1,1 @@
+{"edges":[["on","get",9],["on","push",10],["on","set",11],["once","off",17],["once","listener",18],["once","on",21],["off","get",25],["off","findIndex",27],["off","splice",28],["listenerCount","get",33],["emit","get",37],["emit","slice",39],["emit","listener",39]],"path":"packages/core/src/network/quic/emitter.ts"}

@@ -1,0 +1,4 @@
+id: owc-known-gaps
+session_id: claude-gm-owc-2
+subject: 'Documented Node-surface gaps not yet implemented: brotli and zstd compression; crypto hashing and ciphers; guest-side fetch parity; real TLS; HTTP keep-alive; stream iterator helpers, stream/web and addAbortSignal; readline keypress events and terminal mode; inspector session and post; repl depth; v8 serializer wire format; vm realm isolation; domain binding for promises; shell '';'' separators; npm run lifecycle scripts, global installs and lockfiles; unhandled promise rejection reporting; process signals; pipe operator; WebSocket simulation (all listed in Readme.md Upcoming)'
+status: pending

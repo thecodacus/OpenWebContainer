@@ -1,0 +1,1 @@
+{"edges":[["addProcess","set",20],["getProcess","get",24],["removeProcess","delete",28],["listProcesses","from",32],["listProcesses","values",32],["killAll","listProcesses",36],["killAll","all",37],["killAll","map",37],["killAll","terminate",37],["killAll","clear",38]],"path":"packages/core/src/process/manager/manager.ts"}

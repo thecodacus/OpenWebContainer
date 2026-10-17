@@ -1,4 +1,13 @@
 /**
+ * Result of stat-ing a path in the virtual file system
+ */
+export interface PathStat {
+    type: 'file' | 'dir';
+    size: number;
+    mtimeMs: number;
+}
+
+/**
  * export interface for file system operations
  */
 export interface IFileSystem {
@@ -16,4 +25,10 @@ export interface IFileSystem {
     listDirectory(path: string): string[];
     isDirectory(path: string): boolean;
     normalizePath(path: string): string;
+    statPath(path: string): PathStat | undefined;
+    readdirNames(path: string): string[] | undefined;
+    readBytes(path: string): Uint8Array | undefined;
+    writeBytes(path: string, data: Uint8Array): void;
+    removePath(path: string, recursive?: boolean): void;
+    renamePath(from: string, to: string): void;
 }

@@ -1,0 +1,1 @@
+{"edges":[["huffmanEncodedLength","ceil",27],["huffmanEncode","huffmanEncodedLength",32],["huffmanEncode","floor",45],["decodeTree","fill",67],["decodeTree","fill",68],["decodeTree","fill",69],["decodeTree","floor",74],["huffmanDecode","decodeTree",91],["huffmanDecode","floor",93],["huffmanDecode","slice",118]],"path":"packages/core/src/network/quic/huffman.ts"}

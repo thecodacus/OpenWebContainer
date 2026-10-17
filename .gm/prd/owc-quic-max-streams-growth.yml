@@ -1,0 +1,4 @@
+id: owc-quic-max-streams-growth
+subject: 'The stage 2 QUIC connection does not grow MAX_STREAMS, so an OWC HTTP/3 server answers only about 128 sequential requests on one connection (128 of 130 measured by the stage 3 builder). Real clients send more requests per connection. Stage 4 scope (stream limits and flow control). Witness: 300 sequential requests on one connection to the container server, from aioquic, with every response correct; a second witness for the container client to aioquic. Found in the stage 3 build (finding L1).'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

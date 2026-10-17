@@ -1,0 +1,4 @@
+id: owc-http-agent-maxsockets
+subject: 'The http and https client does not emit the ClientRequest ''socket'' event, emits close before the response end, and ignores maxSockets: 60 concurrent requests opened 60 connections where Node opened 8. Plain http shows the same behaviour on the pre-TLS build, so this predates TLS. Found by the TLS verifier, repro-7 in /tmp/owc-r4/verify-tls/. Decide scope and witness against Node 24.15.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

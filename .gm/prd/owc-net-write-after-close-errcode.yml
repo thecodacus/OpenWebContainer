@@ -1,0 +1,4 @@
+id: owc-net-write-after-close-errcode
+subject: Writing to a socket after it has been closed gives ERR_STREAM_WRITE_AFTER_END in OWC, where Node gives EPIPE. The same difference appears on plain net, not only TLS. Found by the TLS round-3 verifier. Decide whether to match Node's error code and witness it against Node 24.15 with a plain net socket.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

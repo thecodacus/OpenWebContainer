@@ -1,10 +1,33 @@
-import { fs, normalizePath } from '@zenfs/core';
-import { IFileSystem } from './types';
+import { fs, InMemoryStore, normalizePath, StoreFS } from '@zenfs/core';
+import { IFileSystem, PathStat } from './types';
+
+/**
+ * Root mount for the container file system. ZenFS allocates each file as a resizable
+ * ArrayBuffer reserving its maximum size; browsers exhaust that reservation after a few
+ * hundred files (an npm install reaches it), so the root reports non-resizable buffers.
+ */
+class ContainerRootFS extends StoreFS {
+    metadata() {
+        return { ...super.metadata(), noResizableBuffers: true };
+    }
+}
+
+let rootMounted = false;
+
+function mountContainerRoot(): void {
+    if (rootMounted) return;
+    rootMounted = true;
+    const root = new ContainerRootFS(new InMemoryStore('owc-root'));
+    root.checkRootSync();
+    fs.umount('/');
+    fs.mount('/', root);
+}
 
 export class ZenFSCore implements IFileSystem {
     private fs: typeof fs;
 
     constructor() {
+        mountContainerRoot();
         this.fs = fs;
     }
     readBuffer(path: string): Buffer | undefined {
@@ -132,5 +155,37 @@ export class ZenFSCore implements IFileSystem {
 
     isDirectory(path: string): boolean {
         return this.fs.lstatSync(path).isDirectory();
+    }
+
+    statPath(path: string): PathStat | undefined {
+        if (!this.fs.existsSync(path)) return undefined;
+        const stat = this.fs.statSync(path);
+        return {
+            type: stat.isDirectory() ? 'dir' : 'file',
+            size: stat.size,
+            mtimeMs: stat.mtimeMs
+        };
+    }
+
+    readdirNames(path: string): string[] | undefined {
+        if (!this.fs.existsSync(path) || !this.fs.statSync(path).isDirectory()) return undefined;
+        return this.fs.readdirSync(path);
+    }
+
+    readBytes(path: string): Uint8Array | undefined {
+        if (!this.fs.existsSync(path) || this.fs.statSync(path).isDirectory()) return undefined;
+        return new Uint8Array(this.fs.readFileSync(path));
+    }
+
+    writeBytes(path: string, data: Uint8Array): void {
+        this.fs.writeFileSync(path, data);
+    }
+
+    removePath(path: string, recursive = false): void {
+        this.fs.rmSync(path, { recursive, force: false });
+    }
+
+    renamePath(from: string, to: string): void {
+        this.fs.renameSync(from, to);
     }
 }

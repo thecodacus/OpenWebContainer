@@ -1,0 +1,4 @@
+id: owc-platform-gaps-round2
+subject: 'Runtime platform gaps (witness dispatches 1792020269182-7-9453f953e0e0f15b and 1792020333437-8-94a781f6aca1795d): guest fetch is absent (a loopback fetch throws ''fetch is not supported by this runtime''; plan: route http and https URLs through the in-container http client, external hosts fail as ENETUNREACH); WebSocket global is undefined; module.register is undefined; process.kill is undefined (child.kill works); inspector.Session post(Runtime.evaluate) throws ERR_INSPECTOR_NOT_AVAILABLE; v8.serialize emits JSON text, not V8 wire format; vm.runInNewContext shares one realm (instanceof Array is true, Node false); domain binding for promises absent (domain.active undefined in promise callbacks); worker messages deliver a Buffer where Node delivers a Uint8Array; readline keypress events are not delivered for one key; repl depth beyond one eval is unprobed.'
+session_id: owc-r4
+status: pending

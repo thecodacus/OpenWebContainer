@@ -1,0 +1,4 @@
+id: owc-quic-connect-validation
+subject: 'The guest QUIC API does not validate its arguments: connect() without a port throws an uncaught RangeError from a timer, and the process exits 1 without printing its next line. Outside the stage 2 witnesses, which use valid arguments. Found by the QUIC stage 2 verifier, repro-2 in /tmp/owc-r4/verify-quic2/. Decide whether the API should throw synchronously with an ERR_ code, and witness the chosen behaviour in the container.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

@@ -1,0 +1,72 @@
+===== rej =====
+---- program output ----
+start
+Error: boom-unhandled
+    at <anonymous> (/work/main.js:2:25)
+    at call (native)
+    at loadCJS (owc-bootstrap.js:637:19)
+    at runMain (owc-bootstrap.js:915:12)
+
+Process exited with code: 1
+
+[owc exit 1]
+[runner_exit=0]
+===== rejh =====
+---- program output ----
+start
+ur-listener: handled-by-listener isPromise=true
+later-timer-ran
+
+[owc exit 0]
+[runner_exit=0]
+===== dom =====
+---- program output ----
+after-d-run
+domain-error: dom-reject
+dom-timer-ran
+
+[owc exit 0]
+[runner_exit=0]
+===== domlate =====
+---- program output ----
+after-d1-run
+d1-error-caught: made-in-d1
+Error: made-outside
+    at <anonymous> (/work/main.js:14:25)
+    at call (native)
+    at loadCJS (owc-bootstrap.js:637:19)
+    at runMain (owc-bootstrap.js:915:12)
+
+Process exited with code: 1
+
+[owc exit 1]
+[runner_exit=0]
+===== ctx =====
+---- program output ----
+sync-inside-run: {"v":"store-A"}
+sync-outside: undefined
+tick-outside: undefined
+await-null: undefined
+then-outside: undefined
+timer-outside: undefined
+await-timer: undefined
+await-resolved: undefined
+async-resource: undefined
+then-after-await: undefined
+tick-after-await: undefined
+timer-after-await: undefined
+immediate-after-await: undefined
+
+[owc exit 0]
+[runner_exit=0]
+===== awaitkind =====
+---- program output ----
+await-null: undefined
+await-undefined: undefined
+await-number: undefined
+await-promise: undefined
+await-two-promises: undefined
+await-timer-promise: undefined
+
+[owc exit 0]
+[runner_exit=0]

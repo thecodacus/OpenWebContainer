@@ -1,0 +1,4 @@
+id: owc-wc-lean-sweep
+session_id: claude-gm-owc-2
+subject: 'G_NET unblock: remove superseded tracked code until the tracked net line change is zero or negative (candidates from codeinsight orphans and dead legacy network and process paths); each removal is witnessed by the regression suites; if the gate still refuses, record the residual as owc-lean-net-gate'
+status: pending

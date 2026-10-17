@@ -1,0 +1,4 @@
+id: owc-live-verify
+subject: Live verification with real npm packages (CJS, ESM-only, bin, dependency tree) run against the built core, plus headless-Chrome playground run
+session_id: claude-gm-owc-2
+status: pending

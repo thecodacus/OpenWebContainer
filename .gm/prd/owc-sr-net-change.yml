@@ -1,0 +1,4 @@
+id: owc-sr-net-change
+subject: 'G_NET statement: the change is net-positive by necessity, stated as the reason. The stub SRC was empty and the requested built-ins did not exist; the added guest source is about 2000 lines in stream.ts (one owned file). No existing behaviour was removed. The surface is bounded by the YAGNI row (web streams, compose, duplexPair, addAbortSignal, stream/consumers excluded) and every included function is exercised by a witnessed case (45 cases) or a property check or a mutant kill. NODELETE: only the placeholder export was replaced, no working code was deleted.'
+SESSION_ID: stream-rl-a1
+status: pending

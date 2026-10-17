@@ -1,0 +1,4 @@
+id: owc-net-destroy-callback-order
+subject: On a destroyed socket with a pending write, OWC emits 'close' before the write callback, while Node runs the callback first. The same difference appears on plain net. Found by the TLS round-3 verifier. Decide the ordering to match, and witness it against Node 24.15 with a plain net socket.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

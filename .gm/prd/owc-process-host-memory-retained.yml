@@ -1,0 +1,4 @@
+id: owc-process-host-memory-retained
+subject: Each guest process leaves about 16 to 17 MB of host external memory and about 1 MB of arrayBuffers allocated forever, even for trivial programs. The pre-TLS build does the same, so the leak predates TLS. Found by the TLS verifier's lifecycle group. Find the retained owner (process registry, module cache or engine handles) and witness that host memory returns to baseline after N guest runs.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

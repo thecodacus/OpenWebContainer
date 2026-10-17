@@ -1,0 +1,4 @@
+id: owc-sr-blocker-nodelete
+subject: 'BLOCKER (surfaced, not worked around): gate NODELETE (lean: change closes net-negative or states why not) denies the edge NODELETE to COHESION. Its predicate counts working-tree net line change and does not read a growth reason. Working tree at denial (git_diff stat, read only): 13 files, 733 insertions, 298 deletions, net +435, dominated by other agents edits (process.ts +768 lines changed, container.ts, filesystem, network). The owned file stream.ts is untracked and not in that stat. The gate cannot pass for any feature addition without deleting unrelated code, so it is unsatisfiable here and was not treated as passed. Walk halted before G_DONE, G_SWEEP and G_FIXPOINT; RECORD (commit) withheld by the parent constraint of no state-changing git.'
+SESSION_ID: stream-rl-a1
+status: pending

@@ -1,0 +1,4 @@
+id: owc-napi-sharp
+subject: 'The sharp API subset reimplemented in pure JavaScript: metadata, resize, rotate, and format conversion to PNG and JPEG (and WebP where a pure-JS codec exists). Partial and documented, since libvips is not reproducible in full. Corpus entry sharp-native is currently ENGINE_WASM. Oracle: sharp on Node 24.15. Depends on owc-napi-loader.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

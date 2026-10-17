@@ -1,0 +1,4 @@
+id: owc-sr-spike-findings
+subject: 'SPIKE witnessed live (scratchpad/verify/stream/spike.mts vs real Node 24.15.0): (1) process.nextTick is a promise job in this runtime, so tick-1 prints after promise-1 (Node: sync, tick-1, promise-1, micro-1) and p-a, t-inner, p-b (Node: p-a, p-b, t-inner): spine/globals issue, reported not edited; stream.ts uses its own private queue flushed by one microtask. (2) process.stdout stub has write, on, once, end but NOT emit, removeListener, listenerCount: pipe must guard those calls. (3) Buffer.from, Buffer.concat, events emit error throw and timers after microtasks all match Node.'
+SESSION_ID: stream-rl-a1
+status: pending

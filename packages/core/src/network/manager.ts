@@ -1,12 +1,16 @@
 import { HostRequest } from "process/executors/node/modules/network-module";
-import { NodeProcess, Process } from "../process";
+import { NodeProcess, Process, ProcessEvent } from "../process";
 import { NetworkStats, ServerStats, ServerType, SocketConnection, VirtualServer } from "./types";
+import { VirtualNetwork } from '../network/virtual/hub';
+import { attachHostHttp, requestGuestServer, watchGuestServers } from './virtual/host-http';
 
 
 export interface NetworkManagerOptions {
     getProcess: (pid: number) => Process | undefined;
     onServerListen?: (port: number) => void;
     onServerClose?: (port: number) => void;
+    /** The container's virtual network hub, shared with the runtime services. */
+    network: VirtualNetwork;
 }
 
 export class NetworkManager {
@@ -34,9 +38,22 @@ export class NetworkManager {
         totalBytes: { rx: 0, tx: 0 }
     };
 
+    readonly network: VirtualNetwork;
+    private unwatchServers?: () => void;
+
     constructor(options: NetworkManagerOptions) {
         this.getProcess = options.getProcess;
-        setInterval(() => this.cleanupRequestLog(), 60000); // Every minute
+        this.network = options.network;
+        if (this.network) {
+            attachHostHttp(this.network);
+            this.unwatchServers = watchGuestServers(this.network, {
+                listen: (pid, port) => this.trackGuestServer(pid, port),
+                close: (pid, port) => this.untrackGuestServer(pid, port),
+            });
+        }
+        const cleanup = setInterval(() => this.cleanupRequestLog(), 60000); // Every minute
+        // a background sweep must not keep a Node host process alive; browsers return a number here
+        (cleanup as { unref?: () => void }).unref?.();
         this.onServerListen = options.onServerListen;
         this.onServerClose = options.onServerClose;
     }
@@ -193,86 +210,76 @@ export class NetworkManager {
         }));
     }
 
-    async handleRequest(request: HostRequest, port: number): Promise<Response> {
-        const server = this.getServer(port, 'http');
-        if (!server || server.status !== 'running') {
-            return new Response('Service Unavailable', { status: 503 });
-        }
+    /** A guest http server bound its port on the hub: track it like a registered server (listen callback, server list). */
+    private trackGuestServer(pid: number, port: number): void {
+        if (this.servers.has(this.getServerId(port))) return;
+        this.registerServer(pid, port, 'http', { host: '0.0.0.0' });
+        // a process that exits takes its hub listeners with it (releaseOwner); its entries go too
+        this.getProcess(pid)?.addEventListener(ProcessEvent.EXIT, () => this.dropServersOf(pid));
+    }
 
-        const process = this.getProcess(server.pid);
-        if (!process || !(process instanceof NodeProcess)) {
-            return new Response('Internal Server Error', { status: 500 });
+    private dropServersOf(pid: number): void {
+        for (const server of [...this.servers.values()]) {
+            if (server.pid !== pid || server.type !== 'http') continue;
+            this.unregisterServer(server.port, server.type);
+            this.onServerClose?.(server.port);
         }
-        if(!request.url){
-            request.url=request.path||"/"
+    }
+
+    /** A guest http server released its port: drop the tracked entry and report the close. */
+    private untrackGuestServer(pid: number, port: number): void {
+        const tracked = this.servers.get(this.getServerId(port));
+        if (!tracked || tracked.pid !== pid) return;
+        this.unregisterServer(port, 'http');
+        this.onServerClose?.(port);
+    }
+
+    /**
+     * Sends a host request to the guest server on `port` over the virtual network, as raw HTTP/1.1
+     * on a host connection to the hub. A refused connection means no guest server listens on the
+     * port (503); any other failure is a 500.
+     */
+    async handleRequest(request: HostRequest, port: number): Promise<Response> {
+        if (!request.url) {
+            request.url = request.path || "/";
         }
 
         //// network statistics start
         const serverId = this.getServerId(port);
         const startTime = Date.now();
-        let bytesReceived = 0;
-        let bytesSent = 0;
-
-        // Calculate request size
-        bytesReceived += request.url.length;
-        Object.entries(request.headers||{}).forEach(([key, value]) => {
+        let bytesReceived = request.url.length;
+        Object.entries(request.headers || {}).forEach(([key, value]) => {
             bytesReceived += key.length + value.length;
         });
         if (request.body) {
-            const body =request.body; 
-            bytesReceived += body.length;
+            bytesReceived += request.body.length;
         }
-
         //// network statistics end
 
+        this.stats.totalRequests++;
         try {
-
-            // actual request handling
-            this.stats.totalRequests++;
-            let headers:Record<string,string>={}
-            const response = await process.handleHttpRequest({
-                port: port,
-                path: request.path,
-                url: request.url,
-                method: request.method,
-                headers: request.headers,
-                body: request.body
-            });
-
+            const response = await requestGuestServer(this.network, port, request);
 
             //// network statistics start
-            // Calculate response size
+            let bytesSent = 0;
             response.headers.forEach((value, key) => {
                 bytesSent += key.length + value.length;
             });
-            const responseBody = await response.clone().text();
-            bytesSent += responseBody.length;
-
-            // Log successful request
-            this.logRequest(
-                serverId,
-                Date.now() - startTime,
-                response.ok,
-                bytesReceived,
-                bytesSent
-            );
+            bytesSent += (await response.clone().text()).length;
+            this.logRequest(serverId, Date.now() - startTime, response.ok, bytesReceived, bytesSent);
             //// network statistics end
             return response;
-
         } catch (error) {
+            if ((error as { code?: unknown } | undefined)?.code === 'ECONNREFUSED') {
+                return new Response('Service Unavailable', { status: 503 });
+            }
             this.stats.failedRequests++;
-            // Log failed request
-            this.logRequest(
-                serverId,
-                Date.now() - startTime,
-                false,
-                bytesReceived,
-                0
-            );
-            return new Response(error instanceof Error ? error.message : 'Internal Server Error',
-                { status: 500 });
+            this.logRequest(serverId, Date.now() - startTime, false, bytesReceived, 0);
+            return new Response(error instanceof Error ? error.message : 'Internal Server Error', { status: 500 });
         }
     }
+
+    /** The QuickJS path (a server registered on the port by NodeProcess). Reached only when there is no hub. */
 
     createConnection(serverId: string, remotePort: number): string {
         const id = Math.random().toString(36).substr(2, 9);
@@ -303,6 +310,7 @@ export class NetworkManager {
     }
 
     dispose(): void {
+        this.unwatchServers?.();
         this.servers.clear();
         this.connections.clear();
     }

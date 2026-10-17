@@ -1,0 +1,4 @@
+id: owc-stream-readline-goal
+SESSION_ID: stream-rl-a1
+subject: 'GOAL (serves owc-stream-readline): programs that require node:stream, node:stream/promises, node:readline and node:readline/promises inside the OWC in-browser runtime behave as Node 24 for the common surface, verified by live runs against real Node 24. MEANS: stream.ts SRC defines BF stream, BF stream/promises, BF readline, BF readline/promises; no other file is edited.'
+status: pending

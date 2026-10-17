@@ -1,0 +1,1 @@
+Implement support for importing any npm/npx module and the entire Node.js runtime in the browser, end-to-end, in this OpenWebContainer repo (thecodacus/OpenWebContainer). Use an adversarial recursive subagent workflow. Verification is live execution against the real system; no test files ever.

@@ -1,0 +1,4 @@
+id: owc-sr-sanitize-witness
+subject: 'SANITIZE witness (live): tsc --noEmit -p tsconfig.json in packages/core exits 0 with no errors; the extracted guest source passes node --check (syntax) with 0 backtick and 0 dollar-brace characters inside SRC; no test files written anywhere; TDD Chicago and agent QA and LLM judge nodes were not applied as tests (no test files allowed); their disposition is the live Node 24 byte comparison, 45 of 45, plus 4 seeded property checks and 7 killed mutants.'
+SESSION_ID: stream-rl-a1
+status: pending

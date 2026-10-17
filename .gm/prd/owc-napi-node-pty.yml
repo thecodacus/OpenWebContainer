@@ -1,0 +1,4 @@
+id: owc-napi-node-pty
+subject: 'node-pty reimplemented as a pseudo-terminal emulation over OWC child processes, since the browser has no PTY: spawn, write, resize, kill, onData and onExit. Documented limits on terminal control sequences and on job control. Oracle: node-pty on Node 24.15 for the supported subset. Depends on owc-napi-loader.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

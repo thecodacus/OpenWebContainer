@@ -1,0 +1,4 @@
+id: owc-h2-extra-goaway-event
+subject: After its own error GOAWAY, the OWC HTTP/2 server emits an extra 'goaway' session event, which Node does not emit; the wire shows that Node receives the frame and emits nothing. Minor. Found by the HTTP/2 round-2 verifier, repro-4 in /tmp/owc-r4/verify-h2/. Decide whether to match Node's event and witness the chosen behaviour against Node 24.15.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

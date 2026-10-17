@@ -1,0 +1,9 @@
+id: owc-asyncfn-rejection-unreported
+acceptance_criteria:
+- '`(async function () { throw new Error(''x''); })();` in the container exits 1 with the error on stderr and runs no later timer, as host node 24.15 does'
+- A rejection of an async function result reaches a domain that owns it and a process unhandledRejection listener, the way a tracked promise's rejection does now
+session_id: mcp-instruction-56080-1792097621879
+subject: 'ENGINE classification, measured while closing owc-async-context-and-rejections (witness .gm/witness/owc-async-context-and-rejections.txt item 4). `(async function () { throw new Error(''asyncfn-throw''); })();` with a 20 ms timer after it: host node 24.15 prints the error on stderr and exits 1 without running the timer; the container prints ''end'' and exits 0, so the rejection is lost. Cause: the rejection tracker in packages/core/src/process/executors/node/process.ts sees only promises built through its Promise subclass, and QuickJS builds the result of an async function with the intrinsic %Promise%, not through Promise[Symbol.species], so no cell exists for it. Same wall as owc-als-across-await-engine: the missing hook is a host promise-rejection/job hook (JS_SetHostPromiseRejectionTracker, or a job-enqueue hook), and an exhaustive scan of quickjs-emscripten@0.32.0 (18 files, exhaustive: true) holds neither ''setHostPromiseRejectionTracker'' nor ''Hook''.'
+title: A rejection of an async function's own promise is never reported
+witness_plan: Run /tmp/owc-r4/probe-als/asyncfn/main.js under host node and in the container via /tmp/owc-r4/probe2/run-owc-repo.mts from packages/core; host exit 1 with stderr, container exit 0 with 'end'.
+status: pending

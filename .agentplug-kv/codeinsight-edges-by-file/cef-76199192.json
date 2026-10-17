@@ -1,0 +1,1 @@
+{"edges":[["resolvePath","startsWith",54],["resolvePath","replace",57],["showHelp","forEach",66],["showHelp","success",70]],"path":"packages/core/src/shell/commands/base.ts"}

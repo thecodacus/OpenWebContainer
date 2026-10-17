@@ -1,0 +1,4 @@
+id: owc-child-process-defects
+subject: 'Defects found by the network, child process and live-package witness (dispatches 1792020151477-5-9274018484e8e98a, 1792020212967-6-12d3287ffbd06c20, 1792020071313-1-fbe4acdcd4cde0cd): child.pid is not a number; a parent write to child stdin is dropped when stdin end follows it (stdout stays empty; diag-spawn-delayed-stdin-end); exec() with a relative script path fails with Cannot find module ''/printer.cjs'' while execFile with the same paths is equal; exec reports errCode 1 where Node reports 7 for exit 7; spawn of a node_modules/.bin shim (cowsay) gives ENOENT although the .bin entry exists (cowsay bin run fails; library say() equal); a child with stdin handlers printed no PORT line (vnet-exit diagnostic); server and client connection callbacks fire in a different order from Node (vnet-tcp).'
+session_id: owc-r4
+status: pending

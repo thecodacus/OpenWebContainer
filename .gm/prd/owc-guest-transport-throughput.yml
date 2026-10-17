@@ -1,0 +1,4 @@
+id: owc-guest-transport-throughput
+subject: Guest network throughput is far below Node. The HTTP/2 round-2 verifier measured a 16 MiB upload in 55.0 s and a 16 MiB download in 25.3 s, against Node at 0.10 s and 0.19 s. The TLS round 2 measured about 0.4 s per MiB per seal or open. The cost is the hub's base64 transport and QuickJS crypto, not the protocol code. Decide the performance target, profile the base64 path first, and witness the chosen throughput in the container.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

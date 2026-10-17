@@ -1,0 +1,1 @@
+{"admission_band":"general","admission_decision":"admitted","admission_waited_ms":0,"dispatch_id":"1792036092913-500-554b62dcfbd222f","error":"root '/private/tmp/owc-r4/esmfix' is not a real, existing project directory the host will grant access to","error_code":"failed","next_dispatch_hint":"instruction","ok":false,"request_fingerprint":"bab97167dd23c096","verb":"scan_deps"}

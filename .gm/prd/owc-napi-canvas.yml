@@ -1,0 +1,4 @@
+id: owc-napi-canvas
+subject: 'The node-canvas (canvas) API subset reimplemented in pure JavaScript: the 2D context with paths, fills, strokes, text and images, and PNG and JPEG output. Partial and documented, since Cairo is not reproducible in full. Oracle: canvas on Node 24.15 for the subset. Depends on owc-napi-loader.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

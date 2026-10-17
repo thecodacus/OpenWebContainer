@@ -1,0 +1,1 @@
+{"edges":[["writeNapiPlaceholders","call",13],["writeNapiPlaceholders","joinPaths",15],["writeNapiPlaceholders","statPath",16],["writeNapiPlaceholders","createDirectory",17],["writeNapiPlaceholders","dirnameOf",17],["writeNapiPlaceholders","writeFile",18],["writeNapiPlaceholders","push",19]],"path":"packages/core/src/napi/placeholders.ts"}

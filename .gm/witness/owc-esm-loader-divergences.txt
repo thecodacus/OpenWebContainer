@@ -1,0 +1,224 @@
+### m8-meth.mjs
+--- node ---
+2
+[exit 0]
+--- owc ---
+2
+[exit 0]
+### m8-classmeth.mjs
+--- node ---
+m1 s2
+[exit 0]
+--- owc ---
+m1 s2
+[exit 0]
+### m8-nofields-meth.mjs
+--- node ---
+2
+[exit 0]
+--- owc ---
+2
+[exit 0]
+### m6b-attr-dyn.mjs
+--- node ---
+dyn json 7
+no-attr TypeError ERR_IMPORT_ATTRIBUTE_MISSING
+css TypeError ERR_IMPORT_ATTRIBUTE_UNSUPPORTED
+foo TypeError ERR_IMPORT_ATTRIBUTE_UNSUPPORTED
+[exit 0]
+--- owc ---
+dyn json 7
+no-attr TypeError ERR_IMPORT_ATTRIBUTE_MISSING
+css TypeError ERR_IMPORT_ATTRIBUTE_UNSUPPORTED
+foo TypeError ERR_IMPORT_ATTRIBUTE_UNSUPPORTED
+[exit 0]
+### m6d-attr-unsupported.mjs
+--- node ---
+node:internal/modules/esm/assert:105
+    throw new ERR_IMPORT_ATTRIBUTE_UNSUPPORTED('type', type, url);
+          ^
+
+TypeError [ERR_IMPORT_ATTRIBUTE_UNSUPPORTED]: Import attribute "type" with value "javascript" is not supported in file:///private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-22914/se-native.mjs
+    at handleInvalidType (node:internal/modules/esm/assert:105:11)
+    at validateAttributes (node:internal/modules/esm/assert:77:14)
+    at defaultLoadSync (node:internal/modules/esm/load:164:3)
+    at #loadAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:776:12)
+    at #loadSync (node:internal/modules/esm/loader:796:49)
+    at ModuleLoader.load (node:internal/modules/esm/loader:762:26)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:504:31)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:555:36)
+    at afterResolve (node:internal/modules/esm/loader:603:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:609:12) {
+  code: 'ERR_IMPORT_ATTRIBUTE_UNSUPPORTED'
+}
+
+Node.js v24.15.0
+[exit 1]
+--- owc ---
+TypeError: Import attribute "type" with value "javascript" is not supported in file:///work/se-native.mjs
+    at <anonymous> (owc-error:%7B%22code%22%3A%22ERR_IMPORT_ATTRIBUTE_UNSUPPORTED%22%2C%22message%22%3A%22Import%20attribute%20%5C%22type%5C%22%20with%20value%20%5C%22javascript%5C%22%20is%20not%20supported%20in%20file%3A%2F%2F%2Fwork%2Fse-native.mjs%22%2C%22ctor%22%3A%22TypeError%22%2C%22exports%22%3A%5B%22x%22%5D%7D:3:34)
+
+Process exited with code: 1
+[exit 1]
+### m2-dyn-missing.mjs
+--- node ---
+caught Error ERR_MODULE_NOT_FOUND
+caught2 Error ERR_MODULE_NOT_FOUND
+[exit 0]
+--- owc ---
+caught Error ERR_MODULE_NOT_FOUND
+caught2 Error ERR_MODULE_NOT_FOUND
+[exit 0]
+### m7c-collide-dyn.mjs
+--- node ---
+owc:parse-check-stop ERR Error ERR_UNSUPPORTED_ESM_URL_SCHEME
+owc:parse-check ERR Error ERR_UNSUPPORTED_ESM_URL_SCHEME
+owc:other ERR Error ERR_UNSUPPORTED_ESM_URL_SCHEME
+[exit 0]
+--- owc ---
+owc:parse-check-stop ERR Error ERR_UNSUPPORTED_ESM_URL_SCHEME
+owc:parse-check ERR Error ERR_UNSUPPORTED_ESM_URL_SCHEME
+owc:other ERR Error ERR_UNSUPPORTED_ESM_URL_SCHEME
+[exit 0]
+### req-throw.cjs
+--- node ---
+caught Error boom-esm
+[exit 0]
+--- owc ---
+caught Error boom-esm
+[exit 0]
+### m9-ext-less.mjs
+--- node ---
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-316/se-native' imported from /private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-316/m9-ext-less.mjs
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:861:10)
+    at defaultResolve (node:internal/modules/esm/resolve:988:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:697:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:714:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:746:52)
+    at #resolve (node:internal/modules/esm/loader:679:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:599:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:162:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:252:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-316/se-native'
+}
+
+Node.js v24.15.0
+[exit 1]
+--- owc ---
+Error: Cannot find module '/work/se-native' imported from /work/m9-ext-less.mjs
+Process exited with code: 1
+[exit 1]
+### m4-self-tdz.mjs
+--- node ---
+file:///private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-27203/m4-self-tdz.mjs:4
+export const a = 1;
+             ^
+
+SyntaxError: Identifier 'a' has already been declared
+    at compileSourceTextModule (node:internal/modules/esm/utils:318:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:90:18)
+    at #translate (node:internal/modules/esm/loader:451:20)
+    at afterLoad (node:internal/modules/esm/loader:507:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:512:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:555:36)
+    at afterResolve (node:internal/modules/esm/loader:603:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:609:12)
+    at node:internal/modules/esm/loader:628:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14)
+
+Node.js v24.15.0
+[exit 1]
+--- owc ---
+SyntaxError: Identifier 'a' has already been declared
+    at /work/m4-self-tdz.mjs:4:8
+Process exited with code: 1
+[exit 1]
+### dup-import-two-stmts.mjs
+--- node ---
+file:///private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-12629/dup-import-two-stmts.mjs:2
+import { n } from './db.mjs';
+         ^
+
+SyntaxError: Identifier 'n' has already been declared
+    at compileSourceTextModule (node:internal/modules/esm/utils:318:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:90:18)
+    at #translate (node:internal/modules/esm/loader:451:20)
+    at afterLoad (node:internal/modules/esm/loader:507:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:512:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:555:36)
+    at afterResolve (node:internal/modules/esm/loader:603:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:609:12)
+    at node:internal/modules/esm/loader:628:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14)
+
+Node.js v24.15.0
+[exit 1]
+--- owc ---
+SyntaxError: Identifier 'n' has already been declared
+    at /work/dup-import-two-stmts.mjs:2:1
+Process exited with code: 1
+[exit 1]
+### dup-import-same-stmt.mjs
+--- node ---
+file:///private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-28626/dup-import-same-stmt.mjs:1
+import { n, n } from './da.mjs';
+            ^
+
+SyntaxError: Identifier 'n' has already been declared
+    at compileSourceTextModule (node:internal/modules/esm/utils:318:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:90:18)
+    at #translate (node:internal/modules/esm/loader:451:20)
+    at afterLoad (node:internal/modules/esm/loader:507:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:512:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:555:36)
+    at afterResolve (node:internal/modules/esm/loader:603:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:609:12)
+    at node:internal/modules/esm/loader:628:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14)
+
+Node.js v24.15.0
+[exit 1]
+--- owc ---
+SyntaxError: Identifier 'n' has already been declared
+    at /work/dup-import-same-stmt.mjs:1:1
+Process exited with code: 1
+[exit 1]
+### dup-const.mjs
+--- node ---
+file:///private/tmp/owc-r5/esmfix/.nodecopy/tri-cases-18707/dup-const.mjs:2
+const x = 2;
+      ^
+
+SyntaxError: Identifier 'x' has already been declared
+    at compileSourceTextModule (node:internal/modules/esm/utils:318:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:90:18)
+    at #translate (node:internal/modules/esm/loader:451:20)
+    at afterLoad (node:internal/modules/esm/loader:507:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:512:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:555:36)
+    at afterResolve (node:internal/modules/esm/loader:603:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:609:12)
+    at node:internal/modules/esm/loader:628:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14)
+
+Node.js v24.15.0
+[exit 1]
+--- owc ---
+SyntaxError: Identifier 'x' has already been declared
+    at /work/dup-const.mjs:2:1
+Process exited with code: 1
+[exit 1]
+### tla-anon.mjs
+--- node ---
+tla-anon ok
+[exit 0]
+--- owc ---
+tla-anon ok
+[exit 0]
+EXIT=0

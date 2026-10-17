@@ -1,0 +1,4 @@
+id: owc-sr-mutation-kill
+subject: 'MUTATION witness (live, in an isolated copy of packages/core/src so the repo file was never mutated; repo file verified byte-identical afterwards): 7 of 7 deliberate mutants killed by the existing cases: M1 error identity wrapped (destroy-error), M2 drain dropped (backpressure-slow), M3 utf8 carry removed (setencoding-split), M4 CRLF skip removed (readline-crlf-cr), M5 pipeline success argument null instead of undefined (pipeline-callback), M6 end callback dropped (writable-basic), M7 use-after-close check removed (readline-question-after-close).'
+SESSION_ID: stream-rl-a1
+status: pending

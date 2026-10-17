@@ -1,0 +1,4 @@
+id: owc-arbitrary-goal
+session_id: claude-gm-owc-2
+subject: 'GOAL arbitrary npm package coverage. Derivable finish line: F1 pure-JS corpus (126 entries, differential vs real Node v24) PASS >= 95 percent of entries that are not native-dependent; F2 every non-pass classified NATIVE, ENGINE or HOST with evidence, or fixed; F3 regressions hold (cases-core 10/10, cases-npm 7/7, cases-shell 4/4, repo-worker-check 200/503, preview check, SW gateway drive, tsc clean); F4 no test files, no commits; F5 adversarial verifier reports no open blocker in fixed categories. Full arbitrary coverage is not derivable from the payload (unbounded set; native addons excluded by architecture) and is reported as the measured corpus plus class exclusions. Premise from user (StackBlitz runs arbitrary packages) is unverified here.'
+status: pending

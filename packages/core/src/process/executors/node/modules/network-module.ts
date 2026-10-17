@@ -326,7 +326,9 @@ export class NetworkModule {
         this.context.setProp(httpModule, "request", requestHandle)
         requestHandle.dispose()
 
-        return httpModule.dup()
+        const exported = httpModule.dup()
+        httpModule.dispose()
+        return exported
     }
 
     private makeRequestRespObj() {

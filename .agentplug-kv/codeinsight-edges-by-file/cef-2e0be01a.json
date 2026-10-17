@@ -1,0 +1,1 @@
+{"edges":[["<module>","table",41],["encodeRecord","charCodeAt",72],["encodeRecord","charCodeAt",73],["encodeRecord","crc32",74],["byteString","fromCharCode",102],["parseLog","charCodeAt",114],["parseLog","crc32",128],["parseLog","push",129],["parseLog","byteString",129],["parseLog","byteString",129]],"path":"packages/core/src/napi/leveldown/log.ts"}

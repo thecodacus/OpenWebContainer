@@ -1,0 +1,4 @@
+id: owc-hub-rst-semantics
+subject: The virtual hub closes gracefully where Node resets. A peer destroyed with unread data gets end and close in OWC, while Node gives the writer EPIPE or ECONNRESET. Minor. Decide whether RST emulation is in scope, and witness the chosen behaviour against Node. Verifier notes are in /tmp/owc-r4/verify-hubesm/out/.
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

@@ -1,0 +1,14 @@
+id: owc-esm-loader-divergences-blocker-56080
+title: QuickJS teardown assertion fires on every process, not only on TLA with an anonymous default export
+route_family: state
+pre_conditions:
+- packages/core builds and a process can be spawned in a container
+invariants:
+- no guest object outlives the runtime the process disposed
+- JS_FreeRuntime never prints list_empty(&rt->gc_obj_list)
+post_conditions:
+- 'running many node processes in one container prints no Aborted(Assertion failed: list_empty(&rt->gc_obj_list)) line on host stderr'
+witness_plan: run /tmp/owc-r4/verify-hubesm/round3/bin/run-owc-batch-mark.mts over a directory holding only c1.cjs (console.log("c1")) and grep host stderr for 'Aborted('; zero lines is the pass
+subject: 'The remaining item of owc-esm-loader-divergences: a QuickJS cleanup assertion on host stderr. Measured this turn, it is not the narrow case in that row. Every process asserts at teardown, including a CommonJS entry whose only statement is console.log("c1"): JS_FreeRuntime aborts with list_empty(&rt->gc_obj_list). Round 3 recorded it only for t1-tla-default-async.mjs and t6-tla-default-plain.mjs, so it widened after round 3, and no path changed by the ESM row runs for that entry (esmSource, prepareEsmSource, loadEsmSync, normalizeModule are never called for a CJS main). Reproduced 2026-10-16 with the round-3 batch runner over /tmp/owc-r5/esmfix/td (c1.cjs) and over round3/b31-teardown (all of t1..t7 now assert). A leaked handle keeps a guest object alive past context.dispose; find it in the boot and dispose path of process.ts, the host bridge, or the guest modules last changed after Oct 14 (globals.ts, misc.ts, buffer-fs.ts).'
+session_id: mcp-instruction-56080-1792097621879
+status: pending

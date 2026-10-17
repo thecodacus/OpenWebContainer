@@ -1,0 +1,4 @@
+id: owc-sr-yagni-scope
+subject: 'YAGNI scope decision for owc-stream-readline: EXCLUDED surface (no present requirement names it): web streams (Readable.toWeb, fromWeb, Writable/Duplex web variants), stream.compose, stream.duplexPair, Readable.wrap, Duplex.from, addAbortSignal, stream/consumers and stream/web. INCLUDED: Stream, Readable, Writable, Duplex, Transform, PassThrough, pipeline, finished (callback and promises), Readable.from, Readable.toArray, async iteration, readline createInterface, question, prompt, setPrompt, write, pause, resume, close, async iteration, readline/promises, and the escape-sequence helpers clearLine, cursorTo, moveCursor, clearScreenDown, emitKeypressEvents as simple writers.'
+SESSION_ID: stream-rl-a1
+status: pending

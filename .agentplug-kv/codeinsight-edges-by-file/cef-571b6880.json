@@ -1,0 +1,1 @@
+{"edges":[["utf8Encode","charCodeAt",6],["utf8Encode","charCodeAt",8],["utf8Encode","push",18],["utf8Encode","push",19],["utf8Encode","push",20],["utf8Encode","push",21],["utf8Encode","from",23],["utf8Decode","fromCharCode",60],["utf8Decode","fromCharCode",62]],"path":"packages/core/src/network/quic/text.ts"}

@@ -1,0 +1,4 @@
+id: owc-require-esm-divergence
+subject: 'require() of an ES module differs from Node 24.15. A module with top-level await loads, where Node throws ERR_REQUIRE_ASYNC_MODULE. A module with a SyntaxError gives ERR_REQUIRE_ESM, where Node gives SyntaxError. Pre-existing: the same results on the pre-repair build at /tmp/owc-r4/impl-esmfield/pristine. Found in the round-2 ESM verification, repro r2-repro-3. Decide scope and witness against Node 24.15.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

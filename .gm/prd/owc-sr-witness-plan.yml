@@ -1,0 +1,4 @@
+id: owc-sr-witness-plan
+subject: 'WITNESS PLAN for owc-sr-ears-* and owc-stream-readline: files touched = packages/core/src/process/executors/node/runtime/guest/modules/stream.ts only (no other writer surface); verbs = BF stream, BF stream/promises, BF readline, BF readline/promises; witness = drivers under scratchpad/verify/stream/ importing runCases from scratchpad/owc/runner.mts, run with tsx from packages/core, each case diffed against real Node 24 run of the same source; expected Node output recorded before each run; no test files in the repo.'
+SESSION_ID: stream-rl-a1
+status: pending

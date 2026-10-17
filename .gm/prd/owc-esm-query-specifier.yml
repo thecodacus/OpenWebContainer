@@ -1,0 +1,4 @@
+id: owc-esm-query-specifier
+subject: 'An ES module import specifier with a query or fragment (./m.mjs?x=1 or ./m.mjs#frag) fails with ''Cannot find module'' in OWC, while Node 24.15 loads the file. Pre-existing: the same result on the pre-repair build at /tmp/owc-r4/impl-esmfield/pristine. Found in the round-2 ESM verification, repro r2-repro-4. Decide scope and witness against Node 24.15.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

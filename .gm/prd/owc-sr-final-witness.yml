@@ -1,0 +1,4 @@
+id: owc-sr-final-witness
+subject: 'FINAL VERSION WITNESS (live, same turn): 54 of 54 runner cases match real Node 24.15.0 byte for byte with exit 0 (slice one 4, slice two and edge batch 50 including seeded property checks), mutation kill 7 of 7 on an isolated copy of the final file, tsc --noEmit exit 0, guest source passes node --check with no backtick and no dollar-brace. Last fix before this witness: buffered writes destroyed with an error now receive the stored error (Node errorBuffer behaviour), found by the writable-destroy-before-end case.'
+SESSION_ID: stream-rl-a1
+status: pending

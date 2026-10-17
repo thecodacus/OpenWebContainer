@@ -1,0 +1,9 @@
+timeoutMs=300000
+const { execFileSync } = require("node:child_process");
+const core = "/Users/dylanwong/projects/OpenWebContainer/packages/core";
+const scratch = "/private/tmp/claude-501/-Users-dylanwong/5abef553-2037-42f7-af98-aa1e9a1c9442/scratchpad/owc";
+try {
+  return execFileSync("./node_modules/.bin/tsx", [scratch + "/probe-one.mts", scratch + "/probe-url-rel.js"], { cwd: core, encoding: "utf8", timeout: 280000, maxBuffer: 16 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] });
+} catch (error) {
+  return "DRIVER_ERROR " + String(error.status) + "\n" + String(error.stdout || "") + "\n--- stderr\n" + String(error.stderr || "").slice(-3000);
+}

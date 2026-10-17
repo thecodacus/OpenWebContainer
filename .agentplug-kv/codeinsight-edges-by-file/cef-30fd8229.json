@@ -1,0 +1,1 @@
+{"edges":[["register","set",7],["get","get",11],["has","has",14],["getAll","from",18],["getAll","keys",18]],"path":"packages/core/src/shell/commands/registry.ts"}

@@ -2,6 +2,21 @@
 import { BrowserEventEmitter } from "./event-emmiter";
 import { ChildProcessResult, ProcessEvent, ProcessState, ProcessType, SpawnChildEventData } from "./types";
 
+/**
+ * Every process that has been built and has not exited, by pid.
+ *
+ * A process that owns a terminal -- the shell -- cannot reach the child it starts: `spawnChild`
+ * hands back only the child's output, and the container that builds the child sits above this
+ * layer. The child finds its parent here instead and hands itself over, so a foreground job reads
+ * what the terminal sends rather than the shell's own line editor.
+ */
+const LIVE_BY_PID = new Map<number, Process>();
+
+/** The process with this pid, or undefined once it has exited. */
+export function processOf(pid: number): Process | undefined {
+    return LIVE_BY_PID.get(pid);
+}
+
 export interface ProcessStats {
     pid: number;
     ppid?: number;
@@ -33,6 +48,9 @@ export abstract class Process extends BrowserEventEmitter {
     private startTime?: Date;
     private endTime?: Date;
     private terminated: boolean = false;
+    private exitEmitted: boolean = false;
+    /** The child reading this process's terminal input while it runs, or undefined. */
+    private interactiveChild?: Process;
 
     constructor(
         pid: number,
@@ -61,6 +79,7 @@ export abstract class Process extends BrowserEventEmitter {
 
         // Set max listeners to avoid memory leaks
         this.setMaxListeners(100);
+        LIVE_BY_PID.set(pid, this);
     }
 
     /**
@@ -101,12 +120,30 @@ export abstract class Process extends BrowserEventEmitter {
      * Process input handling
      */
     writeInput(input: string): void {
+        // A foreground job owns the terminal while it runs: what the terminal sends goes to it, not here.
+        if (this.interactiveChild !== undefined) {
+            this.interactiveChild.writeInput(input);
+            return;
+        }
+
         if (this._state !== ProcessState.RUNNING) {
             throw new Error('Cannot write input to non-running process');
         }
 
         this.inputBuffer.push(input);
         this.processNextInput();
+    }
+
+    /**
+     * Hands this process's terminal input to `child` until the child exits, the way a shell gives
+     * its terminal to a foreground job. Only a process that reads what it is given -- an
+     * interactive REPL -- takes it; every other child leaves the parent's own line editing alone.
+     */
+    adoptInteractiveChild(child: Process): void {
+        this.interactiveChild = child;
+        child.addEventListener(ProcessEvent.EXIT, () => {
+            if (this.interactiveChild === child) this.interactiveChild = undefined;
+        });
     }
 
     protected async readInput(): Promise<string> {
@@ -145,8 +182,8 @@ export abstract class Process extends BrowserEventEmitter {
             await this.execute();
 
             if (!this.terminated) {
-                this._state = ProcessState.COMPLETED;
-                this._exitCode = 0;
+                this._exitCode = this._exitCode ?? 0;
+                this._state = this._exitCode === 0 ? ProcessState.COMPLETED : ProcessState.FAILED;
             }
         } catch (error: any) {
             this._state = ProcessState.FAILED;
@@ -154,7 +191,7 @@ export abstract class Process extends BrowserEventEmitter {
             this.emit(ProcessEvent.ERROR, { pid: this.pid, error });
         } finally {
             this.endTime = new Date();
-            this.emit(ProcessEvent.EXIT, {
+            this.emitExit({
                 pid: this.pid,
                 exitCode: this._exitCode,
                 uptime: this.uptime
@@ -174,11 +211,19 @@ export abstract class Process extends BrowserEventEmitter {
 
         await this.onTerminate();
 
-        this.emit(ProcessEvent.EXIT, {
+        this.emitExit({
             pid: this.pid,
             exitCode: this._exitCode,
             uptime: this.uptime
         });
+    }
+
+    /** Emits EXIT once: terminate() and the end of start() can both reach it. */
+    private emitExit(data: { pid: number; exitCode: number | null; uptime: number | null }): void {
+        LIVE_BY_PID.delete(this.pid);
+        if (this.exitEmitted) return;
+        this.exitEmitted = true;
+        this.emit(ProcessEvent.EXIT, data);
     }
 
     /**
@@ -196,14 +241,16 @@ export abstract class Process extends BrowserEventEmitter {
     protected async spawnChild(
         executable: string,
         args: string[] = [],
-        env: Record<string, string> = {}
+        env: Record<string, string> = {},
+        cwd?: string
     ): Promise<ChildProcessResult> {
         return new Promise((resolve) => {
             this.emit(ProcessEvent.SPAWN_CHILD, {
                 payload: {
                     executable,
                     args,
-                    env
+                    env,
+                    cwd
                 },
                 callback: resolve
             });

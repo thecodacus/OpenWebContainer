@@ -1,0 +1,4 @@
+id: owc-lean-net-gate
+session_id: claude-gm-owc-2
+subject: 'OPEN BLOCKER: G_NET refuses the NODELETE transition (lean gate change closes net-negative, or states why not; the predicate does not read a growth reason). The change is additive by construction: tracked 14 files +897/-402 (net +495); untracked 41 new runtime files, 15707 lines. Needs a user decision: waive or re-scope the net-negative predicate for additive feature work, or split the change into smaller reviewed pieces'
+status: pending

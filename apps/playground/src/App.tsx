@@ -8,6 +8,7 @@ import { FileExplorer } from "./components/FileExplorer";
 import { useFileTree } from "./hooks/useFileTree";
 import { FolderOpen, Terminal as TerminalIcon, Code, Loader2, Save } from "lucide-react";
 import { useShell } from "./hooks/useShell";
+import { previewUrl, setPreviewPorts, startPreviewGateway } from "./preview/gateway";
 
 export default function App() {
 	const { ready: containerReady, container, servers } = useContainer();
@@ -93,8 +94,31 @@ server.listen(PORT, () => {
 	useEffect(() => {
 		if (servers) {
 			console.log(servers);
+			// Tell the service worker which ports this tab serves, so previews reach this tab
+			// even when several tabs are open with servers on the same port number.
+			setPreviewPorts(servers);
 		}
 	}, [servers]);
+
+	useEffect(() => {
+		if (!containerReady || !container) return;
+		let stopGateway: (() => void) | null = null;
+		let unmounted = false;
+		startPreviewGateway(async (port, request) => {
+			await container.waitForReady();
+			return container.handleHttpRequest(
+				{ method: request.method, url: request.path, headers: request.headers, body: request.body },
+				port
+			);
+		}).then((stop) => {
+			if (unmounted) stop?.();
+			else stopGateway = stop;
+		});
+		return () => {
+			unmounted = true;
+			stopGateway?.();
+		};
+	}, [containerReady, container]);
 
 	const handleSelectFile = async (path: string) => {
 		// Prompt to save if there are unsaved changes
@@ -156,6 +180,11 @@ server.listen(PORT, () => {
 					<Code className="h-5 w-5 text-blue-400" />
 					<h1 className="text-white font-semibold">Web IDE</h1>
 					<span className="text-white font-semibold">running servers: {servers.length}</span>
+						{servers.map((port) => (
+							<a key={port} href={previewUrl(port, "/")} target="_blank" rel="noreferrer" className="text-sm text-blue-400 hover:text-blue-300 underline">
+								Preview :{port}
+							</a>
+						))}
 				</div>
 				<div className="flex space-x-4">
 					{/* Standard menu */}

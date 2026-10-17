@@ -1,0 +1,82 @@
+Row: owc-async-context-and-rejections
+Host: node v24.15.0 (darwin), plain `node main.js`
+Container: packages/core, `node node_modules/.pnpm/tsx@4.19.2/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json /tmp/owc-r4/probe2/run-owc-repo.mts <dir> main.js 180000`
+Probes: /tmp/owc-r4/probe-als/{ctx,rej,rejh,dom,domlate,awaitkind,hook,hook2,sanity}/main.js
+Changed: packages/core/src/process/executors/node/process.ts (REJECTION_TRACKER_SRC)
+
+--- 1. AsyncLocalStorage across await ---  STILL DIVERGES (ENGINE)
+
+probe ctx (store set by als.run, read after each boundary), host keeps the store everywhere:
+  host  sync-inside-run/await-null/await-timer/await-resolved/async-resource/then-after-await/
+        tick-after-await/immediate-after-await/timer-after-await = {"v":"store-A"}; outside = undefined; exit 0
+  owc   only sync-inside-run and the outside reads match; every read after the first await = undefined; exit 0
+Timers, nextTick, setImmediate and promise .then DO carry the store in both (probe hook:
+then-only/timer-only/tick-only/imm-only = {"v":"A"} in both).
+
+probe awaitkind: in owc every await kind loses it - await null, await undefined, await 42,
+await Promise.resolve(1), await new Promise(setTimeout), two awaits in a row.
+
+Mechanism measured, probe hook2 (owc): QuickJS, unlike V8, does call Promise.prototype.then for
+await, but the async-function suspension unwinds the JS stack first, so the hook's finally has
+already restored currentFrame when the engine calls then:
+  C-sync: {"v":"C"}
+  then-hook: onF=function onR=function frameAtThen=undefined   <-- frame already lost
+  wrapped-fulfilled-ran / wrapped-fulfilled-returned
+  C-after-await: undefined                                      <-- resumption is a later job
+probe hook: V8 does not call Promise.prototype.then for await at all (counter stays 1), QuickJS does
+(counter rises per awaited promise) - but the resumption of the async function runs in a job of its
+own, enqueued after the reaction returns, so no JS-level reaction wrapper can hand it the frame.
+No guest wrapper covers it: runInAsyncContext in guest/loader.ts is used only for timers, ticks and
+microtasks (4 call sites), and there is no host/engine hook around JS_ExecutePendingJob.
+Engine evidence: exhaustive scan of quickjs-emscripten@0.32.0 (18 files, exhaustive: true) contains
+neither "setHostPromiseRejectionTracker" nor "Hook" - no promise-job or async-context hook is
+exposed. What Node uses and QuickJS lacks: V8's promise hook (SetPromiseHook: init/before/after/
+promiseResolve) that async_hooks' AsyncLocalStorage is built on.
+
+--- 2. Unhandled promise rejection --- MATCHES (exit status and stream)
+
+probe rej: `Promise.reject(new Error('boom-unhandled'))` then a 20 ms timer.
+  host  stdout "start"; stderr ERR_UNHANDLED_REJECTION + stack; exit 1; the later timer does not run
+  owc   stdout "start"; stderr "Error: boom-unhandled" + stack (process.ts:537 emits the fatal text
+        on stderr); exit 1; the later timer does not run
+Before this change owc already exited 1, so the row's "exits 0 and runs later timers" is stale;
+the exit status, the stream and the suppression of later work all match now.
+
+probe rejh: `process.on('unhandledRejection', fn)` -- NEW FIX
+  host  start / ur-listener: handled-by-listener isPromise=true / later-timer-ran / exit 0
+  owc   identical: start / ur-listener: handled-by-listener isPromise=true / later-timer-ran / exit 0
+  (before the fix owc crashed with exit 1 and never called the listener)
+
+--- 3. Domain binding for promises --- MATCHES (NEW FIX)
+
+probe dom: d.on('error') around `Promise.reject(new Error('dom-reject'))` + a 20 ms timer.
+  host  after-d-run / domain-error: dom-reject / dom-timer-ran / exit 0
+  owc   identical: after-d-run / domain-error: dom-reject / dom-timer-ran / exit 0
+  (before the fix owc printed the raw error and exited 1; the domain was never consulted)
+
+probe domlate: promise built inside d1.run, detected after d1.run returned; a second promise built
+outside any domain.
+  host  after-d1-run / d1-error-caught: made-in-d1 / then crash on made-outside, exit 1
+  owc   after-d1-run / d1-error-caught: made-in-d1 / Error: made-outside + stack, exit 1
+probe both (precedence): a domain owning the promise wins over a process unhandledRejection
+listener in host, and owc now orders them the same way.
+
+--- regression check ---
+
+probe sanity (resolved then, rejected-then-caught, Promise.all, try/await/catch, timer promise):
+  host  end, then 1, catch caught, trycatch trycatch, all 2, timer-promise late; exit 0
+  owc   end, then 1, catch caught, all 2, trycatch trycatch, timer-promise late; exit 0
+packages/core: pnpm build green, tsc --noEmit clean.
+
+--- 4. A rejection only the engine knows about --- DIVERGES (measured, filed separately)
+
+probe asyncfn: `(async function () { throw new Error('asyncfn-throw'); })();` then a 20 ms timer.
+  host  stderr Error: asyncfn-throw + stack, exit 1, the later timer does not run
+  owc   "end" printed, exit 0 - the rejection is not seen at all
+
+--- limits recorded ---
+
+A promise the engine builds itself (the result of an async function) is not built through the
+tracked subclass, so a rejection only it knows about is neither reported nor routed to a domain or
+to an unhandledRejection listener; it is the same engine wall as item 1. Filed as
+owc-asyncfn-rejection-unreported (item 4) and owc-als-across-await-engine (item 1).

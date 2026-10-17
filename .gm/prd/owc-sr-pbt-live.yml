@@ -1,0 +1,4 @@
+id: owc-sr-pbt-live
+subject: 'PROPERTY CHECKS (seeded, live, same script under real Node 24 and in the runtime, both print PBT ok): (1) readline line invariance over 150 random strings with LF, CRLF, CR, multibyte and astral characters, split at random byte boundaries and at code point boundaries, must equal the reference split; (2) Readable to pipe to Writable byte integrity over 60 random byte streams with random highWaterMark and sync or async write callbacks; (3) Transform uppercase with random chunking and flush, 60 trials; (4) setEncoding utf8 decoder over random byte splits of astral text, 60 trials. Found and fixed: none in the runtime; a test-authoring fault (surrogate split) was corrected before the runtime run.'
+SESSION_ID: stream-rl-a1
+status: pending

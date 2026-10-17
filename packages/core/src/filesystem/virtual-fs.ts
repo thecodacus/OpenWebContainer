@@ -1,4 +1,4 @@
-import { IFileSystem } from './types';
+import { IFileSystem, PathStat } from './types';
 
 export class VirtualFileSystem implements IFileSystem {
     private files: Map<string, string>;
@@ -176,5 +176,60 @@ export class VirtualFileSystem implements IFileSystem {
         }
 
         throw new Error(`Module not found: ${specifier} (resolved to ${resolvedPath})`);
+    }
+
+    statPath(path: string): PathStat | undefined {
+        const normalizedPath = this.normalizePath(path);
+        if (this.directories.has(normalizedPath)) {
+            return { type: 'dir', size: 0, mtimeMs: 0 };
+        }
+        const content = this.files.get(normalizedPath);
+        if (content === undefined) return undefined;
+        return { type: 'file', size: content.length, mtimeMs: 0 };
+    }
+
+    readdirNames(path: string): string[] | undefined {
+        if (!this.directories.has(this.normalizePath(path))) return undefined;
+        return this.listDirectory(path).map(entry => entry.replace(/\/$/, ''));
+    }
+
+    readBytes(path: string): Uint8Array | undefined {
+        throw new Error('Method not implemented.');
+    }
+
+    writeBytes(path: string, data: Uint8Array): void {
+        throw new Error('Method not implemented.');
+    }
+
+    removePath(path: string, recursive = false): void {
+        const normalizedPath = this.normalizePath(path);
+        if (this.files.has(normalizedPath)) {
+            this.files.delete(normalizedPath);
+            return;
+        }
+        if (!this.directories.has(normalizedPath)) {
+            throw new Error(`Path not found: ${path}`);
+        }
+        if (!recursive) {
+            this.deleteDirectory(normalizedPath);
+            return;
+        }
+        const prefix = normalizedPath === '/' ? '/' : normalizedPath + '/';
+        for (const file of Array.from(this.files.keys())) {
+            if (file.startsWith(prefix)) this.files.delete(file);
+        }
+        for (const dir of Array.from(this.directories)) {
+            if (dir === normalizedPath || dir.startsWith(prefix)) this.directories.delete(dir);
+        }
+    }
+
+    renamePath(from: string, to: string): void {
+        const source = this.normalizePath(from);
+        const content = this.files.get(source);
+        if (content === undefined) {
+            throw new Error(`File not found: ${from}`);
+        }
+        this.files.delete(source);
+        this.writeFile(to, content);
     }
 }

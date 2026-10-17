@@ -1,0 +1,4 @@
+id: owc-quickjs032-get-newline
+subject: 'Out of scope of repair round 1 (verifier repro-6): QuickJS 0.32 engine divergence. In a class body, ''get'' followed by a line break and then a method name parses as a field named get plus a method; V8 parses an accessor (''get foo() {}''). Example: b06-tostring/t5 prints typeof new A().foo as ''function'' under OWC and ''number'' under Node. Repro: /tmp/owc-r4/verify-hubesm/repro-6 (get-nl.mjs, get-nl.cjs, set-get-nl.mjs).'
+session_id: ff23c579-9038-42cf-9470-189dff38734f
+status: pending

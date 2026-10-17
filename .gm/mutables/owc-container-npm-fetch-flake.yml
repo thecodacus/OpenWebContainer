@@ -1,0 +1,4 @@
+id: owc-container-npm-fetch-flake
+subject: 'OPEN QUESTION: container npm installs intermittently fail with ''fetch failed''. The bindings fix agent saw 11 failures in one contiguous alphabetical window (json5..marked) across both its trees, while my concurrent run of the same 148 entries (/tmp/owc-r4/corpus-bs3) had 0 and every node.install.code was 0. Is this contention on the registry proxy when several container installs run at once, or a genuine flake in the install path? Decide whether corpus gates need a retry rule before a failure is attributed to a code change.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: unknown

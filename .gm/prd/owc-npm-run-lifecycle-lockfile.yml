@@ -1,0 +1,4 @@
+id: owc-npm-run-lifecycle-lockfile
+subject: 'npm run and lifecycle gaps (witness dispatch 1792020269182-7-9453f953e0e0f15b): synchronous npm calls are refused; async npm run <script> exits 1 with no output for both a shelly and a hello script; npm install -g answers ''Global installs are not supported by this runtime''; npm install writes no package-lock.json. Implement npm run for package.json scripts (shell execution through the shell executor, PATH including node_modules/.bin, exit status propagated), and package-lock.json writing that matches npm''s lockfileVersion 3 layout for the installed tree. Global installs stay refused unless the user decides otherwise: that decision is recorded here, not made.'
+session_id: owc-r4
+status: pending

@@ -1,0 +1,4 @@
+id: owc-hub-released-payload-silent
+subject: 'A host that releases the ''connection'' payload object and keeps only the connection id loses late-attach data silently after a GC. attach() returns undefined with no exception, and the peer sees no data, end or close. Node is equivalent for an unreferenced socket, but the loss is silent. Decide: make attach() throw a diagnosable error for a released id, or document the contract in the hub and in the bridge README. Found in the round-3 hub verification, repro r3-repro-1.'
+session_id: 82e15910-75ce-4750-b785-b7acfbfe2bfb
+status: pending

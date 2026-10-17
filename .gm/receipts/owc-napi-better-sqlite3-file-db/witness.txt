@@ -1,0 +1,21 @@
+=== host arm: real better-sqlite3 on v24.15.0 ===
+host npm install exit=0 (better-sqlite3 native add-on)
+host phase 1 write-close exit=0
+host phase 2 read exit=0
+host phase 3 write-noclose exit=0
+host phase 4 read exit=0
+
+=== container arm: the better-sqlite3 shim ===
+container runner exit=0 (host-side stderr in owc-raw.err)
+container phase 1 write-close exit=0
+container phase 2 read exit=0
+container phase 3 write-noclose exit=0
+container phase 4 read exit=0
+
+=== comparison (stdout, stderr, exit code) ===
+phase 1 write-close: stdout=match stderr=match exit=match(0)
+phase 2 read: stdout=match stderr=match exit=match(0)
+phase 3 write-noclose: stdout=match stderr=match exit=match(0)
+phase 4 read: stdout=match stderr=match exit=match(0)
+
+RESULT: PASS
